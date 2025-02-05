@@ -1,5 +1,6 @@
 import { useQuery, gql } from "@apollo/client";
 import { useParams, useNavigate } from "react-router-dom";
+import CountryDetailModal from "./CountryDetailCard";
 
 const GET_COUNTRY_DETAIL = gql`
   query GetCountry($code: ID!) {
@@ -41,21 +42,7 @@ const CountryDetail = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50" onClick={closeModal}>
-      <div className="bg-white rounded-lg p-6 w-11/12 md:w-1/2 relative" onClick={e => e.stopPropagation()}>
-        <button onClick={closeModal} className="absolute top-4 right-4 text-xl">
-          ✖
-        </button>
-        <h2 className="text-2xl font-bold text-black mb-4">{country.name} {country.emoji}</h2>
-        <div className="space-y-2">
-          <p className="text-lg">🏙 Capital: {country.capital}</p>
-          <p className="text-lg">💰 Currency: {country.currency}</p>
-          <p className="text-lg">🌍 Continent: {country.continent.name}</p>
-          <p className="text-lg">📞 Phone Code: +{country.phone}</p>
-          <p className="text-lg">🗣 Languages: {country.languages.map((lang: { name: string }) => lang.name).join(", ")}</p>
-        </div>
-      </div>
-    </div>
+    <CountryDetailModal country={country} closeModal={closeModal} /> 
   );
 };
 

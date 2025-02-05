@@ -1,20 +1,14 @@
 import './App.css'
+import { useState } from 'react';
 import CountryList from './components/CountryCard'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import CountryDetail from './components/CountryDetail';
 // import Squares from './components/Squares.jsx'
-
+import Header from "./components/Header";
 function App() {
   return (
     <Router>
         <MainRoutes />
-        {/* <Squares
-          direction="right" // Arah pergerakan grid
-          speed={2} // Kecepatan grid
-          borderColor="#444" // Warna border grid
-          hoverFillColor="#666" // Warna saat hover
-          squareSize={50} // Ukuran kotak grid
-        /> */}
     </Router>
   )
 }
@@ -23,10 +17,14 @@ function MainRoutes() {
   const location = useLocation();
   const state = location.state as { backgroundLocation?: Location };
 
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [selectedContinent, setSelectedContinent] = useState<string>("");
+
   return (
     <div className="min-h-screen bg-black relative">
+      <Header onSearch={setSearchQuery} onFilter={setSelectedContinent}/>
       <Routes location={state?.backgroundLocation || location}>
-        <Route path="/" element={<CountryList />} />
+        <Route path="/" element={<CountryList searchQuery={searchQuery} selectedContinent={selectedContinent} />} />
         <Route path="*" element={<p className="text-white">404 Not Found</p>} />
       </Routes>
 
