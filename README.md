@@ -78,7 +78,7 @@ Ensure you have the following installed:
 1. Clone the repository:
    ```bash
    git clone https://github.com/your-username/countrymate.git
-   cd countrymate
+   cd CountryMate
    ```
 
 2. Install dependencies:
@@ -100,7 +100,7 @@ Ensure you have the following installed:
    npm run dev
    ```
 
-6. Open `http://localhost:3000` in your browser.
+6. Open `http://localhost:5173` in your browser.
 
 ## Environment Variables
 
