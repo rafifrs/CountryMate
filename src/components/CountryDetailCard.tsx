@@ -47,7 +47,7 @@ const CountryDetailModal: React.FC<ModalProps> = ({ country, closeModal }) => {
       {/* Country Details */}
       <div className="text-white justify-center text-center">
         <div className="items-center justify-center space-x-4">
-          <span className="text-9xl w-fit">{country.emoji}</span>
+          <span className="text-10xl w-fit">{country.emoji}</span>
           <div>
             <h2 className="text-2xl font-bold">{country.name}</h2>
             <p className="text-gray-400 text-sm">({country.native})</p>

@@ -2,7 +2,7 @@
 import OpenAI from 'openai';
 
 // src/services/nimAPI.ts
-const API_KEY = import.meta.env.VITE_NIM_API_KEY || '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';
+const API_KEY = import.meta.env.VITE_NIM_API_KEY || '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';
 
 export const sendMessageToNIM = async (message: string): Promise<string> => {
   try {

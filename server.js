@@ -1,41 +1,32 @@
-// server.js
 import express from 'express';
 import cors from 'cors';
-import fetch from 'node-fetch';
+import OpenAI from 'openai';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const NIM_API_URL = 'https://integrate.api.nvidia.com/v1';
-const NIM_API_KEY = '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';
+const openai = new OpenAI({
+  apiKey: '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',
+  baseURL: 'https://integrate.api.nvidia.com/v1'
+});
 
 app.post('/api/chat', async (req, res) => {
   try {
-    const response = await fetch(`${NIM_API_URL}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${NIM_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: "deepseek-ai/deepseek-r1",
-        messages: [{ role: "user", content: req.body.message }],
-        temperature: 0.6,
-        top_p: 0.7,
-        max_tokens: 4096,
-      })
+    const completion = await openai.chat.completions.create({
+      model: "meta/llama-3.1-8b-instruct",
+      messages: [{ role: "user", content: req.body.message }],
+      temperature: 0.2,
+      top_p: 0.7,
+      max_tokens: 1024,
+      stream: false
     });
-
-    const data = await response.json();
-    res.json(data);
+    
+    res.json(completion);
   } catch (error) {
-    console.error('Error:', error.message);
+    console.error('Error:', error);
     res.status(500).json({ error: 'Failed to process request' });
   }
 });
 
-const PORT = 3001;
-app.listen(PORT, () => {
-  console.log(`Proxy server running on port ${PORT}`);
-});
+app.listen(3001, () => console.log('Server running on port 3001'));
