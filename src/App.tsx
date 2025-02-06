@@ -1,20 +1,22 @@
 import './App.css'
+import { useState } from 'react';
 import CountryList from './components/CountryCard'
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import CountryDetail from './components/CountryDetail';
-// import Squares from './components/Squares.jsx'
+import Header from "./components/Header";
+import LoginPage from './pages/LoginPage';
+import ProfilePage from './pages/ProfilePage';
+
+// Protected Route Component
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+  const isAuthenticated = localStorage.getItem('userProfile') !== null;
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
+};
 
 function App() {
   return (
     <Router>
-        <MainRoutes />
-        {/* <Squares
-          direction="right" // Arah pergerakan grid
-          speed={2} // Kecepatan grid
-          borderColor="#444" // Warna border grid
-          hoverFillColor="#666" // Warna saat hover
-          squareSize={50} // Ukuran kotak grid
-        /> */}
+      <MainRoutes />
     </Router>
   )
 }
@@ -22,15 +24,35 @@ function App() {
 function MainRoutes() {
   const location = useLocation();
   const state = location.state as { backgroundLocation?: Location };
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [selectedContinent, setSelectedContinent] = useState<string>("");
 
   return (
     <div className="min-h-screen bg-black relative">
       <Routes location={state?.backgroundLocation || location}>
-        <Route path="/" element={<CountryList />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route 
+          path="/profile" 
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/" 
+          element={
+            <ProtectedRoute>
+              <div>
+                <Header onSearch={setSearchQuery} onFilter={setSelectedContinent}/>
+                <CountryList searchQuery={searchQuery} selectedContinent={selectedContinent} />
+              </div>
+            </ProtectedRoute>
+          } 
+        />
         <Route path="*" element={<p className="text-white">404 Not Found</p>} />
       </Routes>
 
-      {/* Render modal route on top */}
       {state?.backgroundLocation && (
         <Routes>
           <Route path="/country/:countryCode" element={<CountryDetail />} />

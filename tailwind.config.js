@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontSize: {
+        '10xl': '10rem',
+      },
       keyframes: {
         shine: {
            '0%': { 'background-position': '100%' },

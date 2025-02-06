@@ -12,6 +12,9 @@ const GET_COUNTRIES = gql`
       emoji
       capital
       currency
+      continent { 
+        name
+      }
     }
   }
 `;
@@ -23,9 +26,15 @@ interface Country {
   emoji: string;
   capital: string;
   currency: string;
+  continent: { name: string };
 }
 
-const CountryList: React.FC = () => {
+interface CountryListProps {
+  searchQuery: string;
+  selectedContinent: string;
+}
+
+const CountryList: React.FC<CountryListProps> = ({ searchQuery, selectedContinent }) => {
   const location = useLocation();
   const { loading, error, data } = useQuery<{ countries: Country[] }>(GET_COUNTRIES);
 
@@ -33,16 +42,22 @@ const CountryList: React.FC = () => {
   if (error) return <p>Error: {error.message}</p>;
   if (!data || !data.countries) return <p>No data available.</p>;
 
+  
+  const filteredCountries = data.countries.filter((country) =>
+    country.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+    (selectedContinent === "" || country.continent.name === selectedContinent)
+  );
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-      {data.countries.map((country) => (
+      {filteredCountries.map((country) => (
         <Link
           key={country.code}
           to={`/country/${country.code}`}
           state={{ backgroundLocation: location }}
           className="cursor-pointer"
         >
-          <SpotlightCard className="w-full max-w-[250px] h-[300px] p-4 flex flex-col items-center justify-center bg-black rounded-xl shadow-lg">
+          <SpotlightCard className="w-full max-w-[500px] h-[300px] p-4 flex flex-col items-center justify-center bg-black rounded-xl shadow-lg">
             <span className="text-9xl">{country.emoji}</span>
             <h2 className="text-white text-xl font-semibold mb-2">{country.name}</h2>
             <p className="text-gray-400 text-sm mb-1">
