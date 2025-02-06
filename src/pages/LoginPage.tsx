@@ -35,11 +35,6 @@ const LoginPage: React.FC = () => {
     console.log('Login Failed');
   };
 
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle('dark');
-  };
-
   return (
     <div className={`${darkMode ? 'dark bg-black' : 'bg-white'} flex items-center justify-center min-h-screen transition-colors duration-300`}>
 
@@ -67,7 +62,7 @@ const LoginPage: React.FC = () => {
               <GoogleLogin
                 onSuccess={handleSuccess}
                 onError={handleError}
-                theme={darkMode ? 'filled_white' : 'outline'}
+                theme={darkMode ? 'filled_blue' : 'outline'}
                 size="large"
                 text="signin_with"
                 type="standard"

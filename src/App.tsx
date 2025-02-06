@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'r
 import CountryDetail from './components/CountryDetail';
 import Header from "./components/Header";
 import LoginPage from './pages/LoginPage';
-import ProfilePage from './pages/ProfilePage';
+import ProfilePage from './pages/ProfilepAGE';
+
 
 // Protected Route Component
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
