@@ -90,12 +90,12 @@ Ensure you have the following installed:
 
 3. Set up environment variables (see the next section).
 
-4. Start the backend server:
+4. Start the backend server (make sure you're in cd CountryMate):
    ```bash
    node server.js
    ```
 
-5. Start the development server:
+5. Start the development server (make sure you're in cd CountryMate):
    ```bash
    npm run dev
    ```
