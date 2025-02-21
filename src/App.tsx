@@ -1,11 +1,9 @@
 import './App.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CountryList from './components/CountryCard'
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import CountryDetail from './components/CountryDetail';
 import Header from "./components/Header";
-import LoginPage from './pages/LoginPage';
-import ProfilePage from './pages/ProfilepAGE';
 
 
 // Protected Route Component
@@ -28,18 +26,16 @@ function MainRoutes() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedContinent, setSelectedContinent] = useState<string>("");
 
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem('userProfile') !== null;
+    if (!isAuthenticated) {
+      Navigate({ to: "/login" });
+    }
+  }, [Navigate]);
+
   return (
     <div className="min-h-screen bg-black relative">
       <Routes location={state?.backgroundLocation || location}>
-        <Route path="/login" element={<LoginPage />} />
-        <Route 
-          path="/profile" 
-          element={
-            <ProtectedRoute>
-              <ProfilePage />
-            </ProtectedRoute>
-          } 
-        />
         <Route 
           path="/" 
           element={
